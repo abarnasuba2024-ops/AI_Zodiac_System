@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Zodiac Compatibility | Zodiac AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        /* =========================================
+           COMPATIBILITY PAGE
+        ========================================= */
+
+        .compatibility-page {
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .compatibility-hero {
+            text-align: center;
+            padding: 45px 20px 25px;
+        }
+
+        .compatibility-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+
+        @keyframes floatIcon {
+
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+
+        }
+
+        .compatibility-hero h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .compatibility-hero p {
+            opacity: 0.85;
+            font-size: 17px;
+        }
+
+        /* Main card */
+
+        .compatibility-card {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 35px;
+            border-radius: 25px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.18);
+
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.30);
+
+            backdrop-filter: blur(18px);
+        }
+
+        /* Zodiac selection */
+
+        .zodiac-selection {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .zodiac-box {
+            text-align: center;
+        }
+
+        .zodiac-box label {
+            display: block;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .heart-divider {
+            font-size: 42px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.15);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+
+        }
+
+        /* Dropdown */
+
+        .zodiac-select {
+            width: 100%;
+            padding: 15px 18px;
+
+            border-radius: 14px;
+
+            border:
+                2px solid rgba(255, 255, 255, 0.25);
+
+            background:
+                rgba(15, 20, 60, 0.90);
+
+            color: white;
+
+            font-size: 16px;
+            font-weight: 600;
+
+            outline: none;
+
+            cursor: pointer;
+
+            appearance: auto;
+        }
+
+        .zodiac-select:focus {
+            border-color: #a78bfa;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(167, 139, 250, 0.20);
+        }
+
+        .zodiac-select option {
+            background: #17143d;
+            color: white;
+            padding: 10px;
+        }
+
+        /* Analyze button */
+
+        .analyze-area {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .analyze-btn {
+            border: none;
+
+            padding: 15px 35px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8b5cf6,
+                    #3b82f6
+                );
+
+            color: white;
+
+            font-size: 17px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 30px
+                rgba(79, 70, 229, 0.35);
+
+            transition: 0.3s;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 35px
+                rgba(79, 70, 229, 0.50);
+        }
+
+        /* Error */
+
+        .error-message {
+            margin-top: 20px;
+            padding: 15px;
+
+            border-radius: 12px;
+
+            background:
+                rgba(239, 68, 68, 0.15);
+
+            border:
+                1px solid
+                rgba(239, 68, 68, 0.40);
+
+            color: #fecaca;
+
+            text-align: center;
+        }
+
+        /* Result */
+
+        .compatibility-result {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 35px;
+
+            text-align: center;
+
+            border-radius: 25px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.20);
+
+            backdrop-filter: blur(18px);
+
+            animation: resultAppear 0.6s ease;
+        }
+
+        @keyframes resultAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .result-symbols {
+            font-size: 55px;
+            margin-bottom: 10px;
+        }
+
+        .result-title {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        /* Score */
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+
+            margin: 25px auto;
+
+            border-radius: 50%;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.35),
+                    rgba(59, 130, 246, 0.35)
+                );
+
+            border:
+                5px solid
+                rgba(255, 255, 255, 0.20);
+
+            box-shadow:
+                0 0 35px
+                rgba(139, 92, 246, 0.30);
+        }
+
+        .score-number {
+            font-size: 42px;
+            font-weight: 800;
+        }
+
+        .score-label {
+            font-size: 14px;
+            opacity: 0.75;
+        }
+
+        .compatibility-message {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* Element information */
+
+        .element-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 20px;
+
+            margin-top: 25px;
+        }
+
+        .element-card {
+            padding: 20px;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+        }
+
+        .element-card h3 {
+            margin-bottom: 8px;
+        }
+
+        .element-card p {
+            margin: 5px 0;
+            opacity: 0.85;
+        }
+
+        /* Home button */
+
+        .home-area {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .home-btn {
+            display: inline-block;
+
+            padding: 13px 28px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.25);
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: 700;
+
+            transition: 0.3s;
+        }
+
+        .home-btn:hover {
+            background:
+                rgba(255, 255, 255, 0.20);
+
+            transform: translateY(-2px);
+        }
+
+        /* Mobile */
+
+        @media (max-width: 700px) {
+
+            .compatibility-hero h1 {
+                font-size: 30px;
+            }
+
+            .compatibility-card {
+                margin: 15px;
+                padding: 22px;
+            }
+
+            .zodiac-selection {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .heart-divider {
+                transform: rotate(90deg);
+            }
+
+            .element-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="compatibility-page">
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🔮 Zodiac AI
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">
+                Home
+            </a>
+
+            <a href="/personality">
+                Personality
+            </a>
+
+            <a href="/compatibility">
+                Compatibility
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         HERO
+    ========================================== -->
+
+    <section class="compatibility-hero">
+
+        <div class="compatibility-icon">
+            💕
+        </div>
+
+        <h1>
+            Zodiac Compatibility
+        </h1>
+
+        <p>
+            Explore the compatibility between two zodiac signs
+        </p>
+
+    </section>
+
+
+    <!-- =========================================
+         COMPATIBILITY FORM
+    ========================================== -->
+
+    <div class="compatibility-card">
+
+        <form
+            method="POST"
+            action="{{ url_for('compatibility') }}"
+        >
+
+            <div class="zodiac-selection">
+
+
+                <!-- FIRST ZODIAC -->
+
+                <div class="zodiac-box">
+
+                    <label for="zodiac1">
+                        🌟 First Zodiac Sign
+                    </label>
+
+                    <select
+                        id="zodiac1"
+                        name="zodiac1"
+                        class="zodiac-select"
+                        required
+                    >
+
+                        <option value="" disabled
+                        {% if not zodiac1 %}
+                            selected
+                        {% endif %}>
+                            ✨ Select First Sign
+                        </option>
+
+
+                        {% for sign, info in zodiac_info.items() %}
+
+                            <option
+                                value="{{ sign }}"
+                                {% if zodiac1 == sign %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ info.symbol }}
+                                {{ sign }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- HEART -->
+
+                <div class="heart-divider">
+                    ❤️
+                </div>
+
+
+                <!-- SECOND ZODIAC -->
+
+                <div class="zodiac-box">
+
+                    <label for="zodiac2">
+                        💫 Second Zodiac Sign
+                    </label>
+
+                    <select
+                        id="zodiac2"
+                        name="zodiac2"
+                        class="zodiac-select"
+                        required
+                    >
+
+                        <option value="" disabled
+                        {% if not zodiac2 %}
+                            selected
+                        {% endif %}>
+                            ✨ Select Second Sign
+                        </option>
+
+
+                        {% for sign, info in zodiac_info.items() %}
+
+                            <option
+                                value="{{ sign }}"
+                                {% if zodiac2 == sign %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ info.symbol }}
+                                {{ sign }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- =====================================
+                 ANALYZE BUTTON
+            ====================================== -->
+
+            <div class="analyze-area">
+
+                <button
+                    type="submit"
+                    class="analyze-btn"
+                >
+
+                    ✨ Analyze Compatibility
+
+                </button>
+
+            </div>
+
+
+            <!-- =====================================
+                 ERROR MESSAGE
+            ====================================== -->
+
+            {% if error %}
+
+                <div class="error-message">
+
+                    ⚠️ {{ error }}
+
+                </div>
+
+            {% endif %}
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================================
+         RESULT
+    ========================================== -->
+
+    {% if score is defined %}
+
+    <div class="compatibility-result">
+
+
+        <div class="result-symbols">
+
+            {{ zodiac_info[zodiac1].symbol }}
+
+            ❤️
+
+            {{ zodiac_info[zodiac2].symbol }}
+
+        </div>
+
+
+        <h2 class="result-title">
+
+            {{ zodiac1 }}
+
+            &
+
+            {{ zodiac2 }}
+
+        </h2>
+
+
+        <!-- SCORE -->
+
+        <div class="score-circle">
+
+            <div class="score-number">
+
+                {{ score }}%
+
+            </div>
+
+            <div class="score-label">
+
+                Compatibility
+
+            </div>
+
+        </div>
+
+
+        <p class="compatibility-message">
+
+            ✨ {{ message }}
+
+        </p>
+
+
+        <!-- ELEMENT INFORMATION -->
+
+        <div class="element-grid">
+
+
+            <div class="element-card">
+
+                <h3>
+
+                    {{ zodiac_info[zodiac1].symbol }}
+
+                    {{ zodiac1 }}
+
+                </h3>
+
+                <p>
+
+                    <strong>
+                        Element:
+                    </strong>
+
+                    {{ zodiac_info[zodiac1].element }}
+
+                </p>
+
+                <p>
+
+                    {{ zodiac_info[zodiac1].description }}
+
+                </p>
+
+            </div>
+
+
+            <div class="element-card">
+
+                <h3>
+
+                    {{ zodiac_info[zodiac2].symbol }}
+
+                    {{ zodiac2 }}
+
+                </h3>
+
+                <p>
+
+                    <strong>
+                        Element:
+                    </strong>
+
+                    {{ zodiac_info[zodiac2].element }}
+
+                </p>
+
+                <p>
+
+                    {{ zodiac_info[zodiac2].description }}
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- =========================================
+         HOME BUTTON
+    ========================================== -->
+
+    <div class="home-area">
+
+        <a
+            href="/"
+            class="home-btn"
+        >
+
+            🏠 Back to Home
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================== -->
+
+<script>
+
+    // Simple dropdown animation feedback
+
+    const selects =
+        document.querySelectorAll(".zodiac-select");
+
+    selects.forEach(function(select) {
+
+        select.addEventListener(
+            "change",
+            function() {
+
+                if (this.value !== "") {
+
+                    this.style.borderColor =
+                        "#a78bfa";
+
+                }
+
+            }
+        );
+
+    });
+
+</script>
+
+
+</body>
+
+</html>

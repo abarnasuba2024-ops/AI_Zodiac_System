@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Personality Result</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<nav class="navbar">
+
+    <div class="logo">
+        🔮 Zodiac AI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/personality">
+            Personality
+        </a>
+
+        <a href="/compatibility">
+            Compatibility
+        </a>
+
+        <a href="/horoscope">
+            Horoscope
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+
+<section class="page-title">
+
+    <div class="zodiac">
+        {{ symbol }}
+    </div>
+
+    <h1>
+        Personality Result
+    </h1>
+
+    <p>
+        Hello {{ name }} 👋
+    </p>
+
+</section>
+
+
+<!-- MAIN RESULT -->
+
+<div class="result-card">
+
+    <div class="zodiac">
+        {{ symbol }}
+    </div>
+
+    <h2 class="result-title">
+        {{ zodiac }}
+    </h2>
+
+    <p style="color:#cbd5e1;">
+
+        Element: {{ element }}
+
+    </p>
+
+
+    <div class="score">
+
+        {{ prediction }}
+
+    </div>
+
+
+    <p style="color:#cbd5e1; line-height:1.7;">
+
+        {{ zodiac_description }}
+
+    </p>
+
+</div>
+
+
+<!-- TRAITS -->
+
+<div class="card"
+     style="margin-top:25px;">
+
+    <h2>
+        📊 Your Personality Traits
+    </h2>
+
+
+    <div class="traits">
+
+
+        {% for trait, value in traits.items() %}
+
+        <div class="trait">
+
+            <div class="trait-title">
+
+                <span>
+                    {{ trait }}
+                </span>
+
+                <span>
+                    {{ value }}/10
+                </span>
+
+            </div>
+
+
+            <input
+                type="range"
+                min="1"
+                max="10"
+                value="{{ value }}"
+                disabled>
+
+        </div>
+
+        {% endfor %}
+
+
+    </div>
+
+</div>
+
+
+<!-- ANALYSIS -->
+
+<div class="card"
+     style="margin-top:25px;">
+
+    <h2>
+        ✨ AI Analysis
+    </h2>
+
+
+    <div class="result-info">
+
+
+        <div class="info-box">
+
+            <h3>
+                🌟 Strongest Trait
+            </h3>
+
+            <p>
+                {{ highest_trait }}
+            </p>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <h3>
+                📌 Area to Develop
+            </h3>
+
+            <p>
+                {{ lowest_trait }}
+            </p>
+
+        </div>
+
+
+        <div class="info-box">
+
+            <h3>
+                ♈ Zodiac
+            </h3>
+
+            <p>
+                {{ zodiac }}
+            </p>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- CAREER -->
+
+<div class="card"
+     style="margin-top:25px;">
+
+    <h2>
+        💼 Suggested Career Areas
+    </h2>
+
+
+    <div class="career-grid"
+         style="margin-top:20px;">
+
+
+        {% for career in careers %}
+
+        <div class="career-card">
+
+            <div class="icon">
+                💼
+            </div>
+
+            <h2>
+                {{ career }}
+            </h2>
+
+        </div>
+
+        {% endfor %}
+
+
+    </div>
+
+</div>
+
+
+<div style="text-align:center;">
+
+    <a href="/personality"
+       class="btn">
+
+        🔄 Try Again
+
+    </a>
+
+    <a href="/"
+       class="btn">
+
+        🏠 Home
+
+    </a>
+
+</div>
+
+
+<div class="alert">
+
+    ⚠️ This is an experimental educational
+    AI/ML project. Zodiac-based personality
+    interpretations are not scientifically
+    validated.
+
+</div>
+
+
+</main>
+
+
+</body>
+
+</html>

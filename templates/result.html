@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Personality Result</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✨ Your AI Personality Profile</h1>
+
+<h2>
+{{ symbol }} {{ zodiac }}
+</h2>
+
+<h3>{{ name }}</h3>
+
+<div class="result">
+
+<h2>Predicted Personality</h2>
+
+<h1>{{ personality }}</h1>
+
+</div>
+
+<h2>📊 Personality Scores</h2>
+
+<p>Confidence: {{ confidence }}/10</p>
+
+<p>Creativity: {{ creativity }}/10</p>
+
+<p>Leadership: {{ leadership }}/10</p>
+
+<p>Social Interaction: {{ social }}/10</p>
+
+<p>Communication: {{ communication }}/10</p>
+
+<p>Teamwork: {{ teamwork }}/10</p>
+
+
+<h2>💼 Career Areas Based on Your Responses</h2>
+
+<ul>
+
+{% for career in careers %}
+
+<li>{{ career }}</li>
+
+{% endfor %}
+
+</ul>
+
+
+<a href="/">
+<button>Home</button>
+</a>
+
+</div>
+
+</body>
+
+</html>

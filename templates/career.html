@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Career Recommendation</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .career-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px 60px;
+        }
+
+        .career-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .career-header h1 {
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .career-header p {
+            color: #d8d8e8;
+            font-size: 16px;
+        }
+
+        .career-card {
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .skill-row {
+            margin: 24px 0;
+        }
+
+        .skill-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .skill-header label {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .skill-value {
+            font-weight: bold;
+            color: #a78bfa;
+            min-width: 45px;
+            text-align: right;
+        }
+
+        .skill-slider {
+            width: 100%;
+            cursor: pointer;
+            accent-color: #8b5cf6;
+        }
+
+        .analyse-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+
+            background: linear-gradient(
+                135deg,
+                #7c3aed,
+                #2563eb
+            );
+
+            transition: 0.3s;
+        }
+
+        .analyse-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+        }
+
+        .home-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.20);
+
+            transition: 0.3s;
+        }
+
+        .home-btn:hover {
+            background: rgba(255,255,255,0.20);
+            transform: translateY(-2px);
+        }
+
+        .result-box {
+            margin-top: 30px;
+            padding: 25px;
+            border-radius: 20px;
+
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .result-box h2 {
+            color: #c4b5fd;
+            margin-bottom: 15px;
+        }
+
+        .career-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .career-list li {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 10px;
+            background: rgba(124,58,237,0.15);
+        }
+
+        .disclaimer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        @media (max-width: 600px) {
+
+            .career-header h1 {
+                font-size: 28px;
+            }
+
+            .career-page {
+                padding: 20px 12px 40px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            🔮 AI Zodiac System
+        </div>
+
+        <div class="nav-links">
+
+            <a href="{{ url_for('home') }}">
+                🏠 Home
+            </a>
+
+            <a href="{{ url_for('personality') }}">
+                🧠 Personality
+            </a>
+
+            <a href="{{ url_for('compatibility') }}">
+                ❤️ Compatibility
+            </a>
+
+            <a href="{{ url_for('horoscope') }}">
+                🌙 Horoscope
+            </a>
+
+            <a href="{{ url_for('career') }}">
+                💼 Career
+            </a>
+
+            <a href="{{ url_for('dashboard') }}">
+                📊 Dashboard
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= PAGE ================= -->
+
+    <main class="career-page">
+
+        <div class="career-header">
+
+            <h1>
+                💼 AI Career Recommendation
+            </h1>
+
+            <p>
+                Discover career areas based on your skills and interests.
+            </p>
+
+        </div>
+
+
+        <!-- ================= CAREER FORM ================= -->
+
+        <div class="card career-card">
+
+            <h2>
+                🎯 Analyse My Career
+            </h2>
+
+            <p>
+                Rate your skills from 0 to 100.
+            </p>
+
+
+            <!-- IMPORTANT:
+                 POST request goes to Flask /career route
+            -->
+
+            <form action="{{ url_for('career') }}" method="POST">
+
+
+                <!-- Python -->
+
+                <div class="skill-row">
+
+                    <div class="skill-header">
+
+                        <label for="python">
+                            🐍 Python
+                        </label>
+
+                        <span class="skill-value"
+                              id="pythonValue">
+                            50
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="python"
+                        name="python"
+                        class="skill-slider"
+                        min="0"
+                        max="100"
+                        value="50"
+                        oninput="updateValue('python')">
+
+                </div>
+
+
+                <!-- Data Analysis -->
+
+                <div class="skill-row">
+
+                    <div class="skill-header">
+
+                        <label for="data">
+                            📊 Data Analysis
+                        </label>
+
+                        <span class="skill-value"
+                              id="dataValue">
+                            50
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="data"
+                        name="data"
+                        class="skill-slider"
+                        min="0"
+                        max="100"
+                        value="50"
+                        oninput="updateValue('data')">
+
+                </div>
+
+
+                <!-- Communication -->
+
+                <div class="skill-row">
+
+                    <div class="skill-header">
+
+                        <label for="communication">
+                            🗣️ Communication
+                        </label>
+
+                        <span class="skill-value"
+                              id="communicationValue">
+                            50
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="communication"
+                        name="communication"
+                        class="skill-slider"
+                        min="0"
+                        max="100"
+                        value="50"
+                        oninput="updateValue('communication')">
+
+                </div>
+
+
+                <!-- Creativity -->
+
+                <div class="skill-row">
+
+                    <div class="skill-header">
+
+                        <label for="creativity">
+                            🎨 Creativity
+                        </label>
+
+                        <span class="skill-value"
+                              id="creativityValue">
+                            50
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="creativity"
+                        name="creativity"
+                        class="skill-slider"
+                        min="0"
+                        max="100"
+                        value="50"
+                        oninput="updateValue('creativity')">
+
+                </div>
+
+
+                <!-- Leadership -->
+
+                <div class="skill-row">
+
+                    <div class="skill-header">
+
+                        <label for="leadership">
+                            👑 Leadership
+                        </label>
+
+                        <span class="skill-value"
+                              id="leadershipValue">
+                            50
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="leadership"
+                        name="leadership"
+                        class="skill-slider"
+                        min="0"
+                        max="100"
+                        value="50"
+                        oninput="updateValue('leadership')">
+
+                </div>
+
+
+                <!-- Design -->
+
+                <div class="skill-row">
+
+                    <div class="skill-header">
+
+                        <label for="design">
+                            🎨 UI/UX Design
+                        </label>
+
+                        <span class="skill-value"
+                              id="designValue">
+                            50
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="design"
+                        name="design"
+                        class="skill-slider"
+                        min="0"
+                        max="100"
+                        value="50"
+                        oninput="updateValue('design')">
+
+                </div>
+
+
+                <!-- Problem Solving -->
+
+                <div class="skill-row">
+
+                    <div class="skill-header">
+
+                        <label for="problem_solving">
+                            🧩 Problem Solving
+                        </label>
+
+                        <span class="skill-value"
+                              id="problem_solvingValue">
+                            50
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="problem_solving"
+                        name="problem_solving"
+                        class="skill-slider"
+                        min="0"
+                        max="100"
+                        value="50"
+                        oninput="updateValue('problem_solving')">
+
+                </div>
+
+
+                <!-- Teamwork -->
+
+                <div class="skill-row">
+
+                    <div class="skill-header">
+
+                        <label for="teamwork">
+                            🤝 Teamwork
+                        </label>
+
+                        <span class="skill-value"
+                              id="teamworkValue">
+                            50
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        id="teamwork"
+                        name="teamwork"
+                        class="skill-slider"
+                        min="0"
+                        max="100"
+                        value="50"
+                        oninput="updateValue('teamwork')">
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="analyse-btn">
+
+                    ✨ Analyse My Career
+
+                </button>
+
+            </form>
+
+
+            <!-- HOME -->
+
+            <div style="text-align:center;">
+
+                <a
+                    href="{{ url_for('home') }}"
+                    class="home-btn">
+
+                    🏠 Back to AI Zodiac Home
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= RESULT ================= -->
+
+        {% if result %}
+
+        <div class="result-box">
+
+            <h2>
+                🚀 Your Career Recommendation
+            </h2>
+
+            <p>
+                Based on your skill profile, suggested career area:
+            </p>
+
+            <h3>
+                {{ result }}
+            </h3>
+
+            {% if careers %}
+
+            <h3>
+                💼 Related Career Areas
+            </h3>
+
+            <ul class="career-list">
+
+                {% for career_item in careers %}
+
+                <li>
+                    {{ career_item }}
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+
+        <div class="disclaimer">
+
+            💡 Career suggestions are educational recommendations
+            based on the entered skill ratings. They should not be
+            treated as professional career advice.
+
+        </div>
+
+    </main>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        function updateValue(id) {
+
+            const slider = document.getElementById(id);
+
+            const value = document.getElementById(id + "Value");
+
+            value.textContent = slider.value;
+
+        }
+
+    </script>
+
+</body>
+
+</html>

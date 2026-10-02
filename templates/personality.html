@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Personality Prediction</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <div class="logo">
+        🔮 Zodiac AI
+    </div>
+
+    <div class="nav-links">
+
+        <a href="/">Home</a>
+
+        <a href="/personality">
+            Personality
+        </a>
+
+        <a href="/compatibility">
+            Compatibility
+        </a>
+
+        <a href="/horoscope">
+            Horoscope
+        </a>
+
+    </div>
+
+</nav>
+
+
+<main class="container">
+
+
+    <section class="page-title">
+
+        <div class="zodiac">
+            🧠
+        </div>
+
+        <h1>
+            AI Personality Prediction
+        </h1>
+
+        <p>
+            Discover an experimental personality profile
+            using your zodiac sign and personality traits.
+        </p>
+
+    </section>
+
+
+    <form action="/personality"
+          method="POST">
+
+
+        <!-- BASIC INFORMATION -->
+
+        <div class="card">
+
+            <h2>
+                👤 Personal Information
+            </h2>
+
+            <br>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Enter your name"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Date of Birth
+                    </label>
+
+                    <input
+                        type="date"
+                        name="dob"
+                        id="dob"
+                        required>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Zodiac Sign
+                    </label>
+
+                    <select
+                        name="zodiac"
+                        id="zodiac"
+                        required>
+
+                        <option value="">
+                            Select Zodiac Sign
+                        </option>
+
+                        <option value="Aries">
+                            ♈ Aries
+                        </option>
+
+                        <option value="Taurus">
+                            ♉ Taurus
+                        </option>
+
+                        <option value="Gemini">
+                            ♊ Gemini
+                        </option>
+
+                        <option value="Cancer">
+                            ♋ Cancer
+                        </option>
+
+                        <option value="Leo">
+                            ♌ Leo
+                        </option>
+
+                        <option value="Virgo">
+                            ♍ Virgo
+                        </option>
+
+                        <option value="Libra">
+                            ♎ Libra
+                        </option>
+
+                        <option value="Scorpio">
+                            ♏ Scorpio
+                        </option>
+
+                        <option value="Sagittarius">
+                            ♐ Sagittarius
+                        </option>
+
+                        <option value="Capricorn">
+                            ♑ Capricorn
+                        </option>
+
+                        <option value="Aquarius">
+                            ♒ Aquarius
+                        </option>
+
+                        <option value="Pisces">
+                            ♓ Pisces
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- PERSONALITY TRAITS -->
+
+        <div class="card"
+             style="margin-top:25px;">
+
+            <h2>
+                🧠 Personality Traits
+            </h2>
+
+            <p style="color:#cbd5e1; margin-top:8px;">
+
+                Rate yourself from 1 to 10.
+
+            </p>
+
+
+            <div class="traits">
+
+
+                <!-- CONFIDENCE -->
+
+                <div class="trait">
+
+                    <div class="trait-title">
+
+                        <span>
+                            💪 Confidence
+                        </span>
+
+                        <span id="confidenceValue">
+                            5
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        name="confidence"
+                        id="confidence"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="
+                        confidenceValue.innerText=this.value">
+
+                </div>
+
+
+                <!-- CREATIVITY -->
+
+                <div class="trait">
+
+                    <div class="trait-title">
+
+                        <span>
+                            🎨 Creativity
+                        </span>
+
+                        <span id="creativityValue">
+                            5
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        name="creativity"
+                        id="creativity"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="
+                        creativityValue.innerText=this.value">
+
+                </div>
+
+
+                <!-- LEADERSHIP -->
+
+                <div class="trait">
+
+                    <div class="trait-title">
+
+                        <span>
+                            👑 Leadership
+                        </span>
+
+                        <span id="leadershipValue">
+                            5
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        name="leadership"
+                        id="leadership"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="
+                        leadershipValue.innerText=this.value">
+
+                </div>
+
+
+                <!-- COMMUNICATION -->
+
+                <div class="trait">
+
+                    <div class="trait-title">
+
+                        <span>
+                            💬 Communication
+                        </span>
+
+                        <span id="communicationValue">
+                            5
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        name="communication"
+                        id="communication"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="
+                        communicationValue.innerText=this.value">
+
+                </div>
+
+
+                <!-- TEAMWORK -->
+
+                <div class="trait">
+
+                    <div class="trait-title">
+
+                        <span>
+                            🤝 Teamwork
+                        </span>
+
+                        <span id="teamworkValue">
+                            5
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        name="teamwork"
+                        id="teamwork"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="
+                        teamworkValue.innerText=this.value">
+
+                </div>
+
+
+                <!-- SOCIAL INTERACTION -->
+
+                <div class="trait">
+
+                    <div class="trait-title">
+
+                        <span>
+                            🗣️ Social Interaction
+                        </span>
+
+                        <span id="socialValue">
+                            5
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        name="social"
+                        id="social"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="
+                        socialValue.innerText=this.value">
+
+                </div>
+
+
+                <!-- PATIENCE -->
+
+                <div class="trait">
+
+                    <div class="trait-title">
+
+                        <span>
+                            🧘 Patience
+                        </span>
+
+                        <span id="patienceValue">
+                            5
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        name="patience"
+                        id="patience"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="
+                        patienceValue.innerText=this.value">
+
+                </div>
+
+
+                <!-- RISK TAKING -->
+
+                <div class="trait">
+
+                    <div class="trait-title">
+
+                        <span>
+                            🚀 Risk Taking
+                        </span>
+
+                        <span id="riskValue">
+                            5
+                        </span>
+
+                    </div>
+
+                    <input
+                        type="range"
+                        name="risk"
+                        id="risk"
+                        min="1"
+                        max="10"
+                        value="5"
+                        oninput="
+                        riskValue.innerText=this.value">
+
+                </div>
+
+
+            </div>
+
+
+            <div style="text-align:center;">
+
+                <button
+                    type="submit"
+                    class="btn">
+
+                    🔮 Predict My Personality
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </form>
+
+
+    <!-- INFORMATION -->
+
+    <div class="alert">
+
+        ⚠️ This project is an experimental AI/ML
+        demonstration. Zodiac-based personality
+        interpretations are intended for entertainment
+        and educational purposes and are not scientifically
+        validated.
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+/*
+Automatically calculate Zodiac
+from Date of Birth.
+*/
+
+document.getElementById("dob").addEventListener(
+    "change",
+    function () {
+
+        let value = this.value;
+
+        if (!value) {
+            return;
+        }
+
+        let date = new Date(value);
+
+        let day = date.getUTCDate();
+
+        let month = date.getUTCMonth() + 1;
+
+        let zodiac = "";
+
+
+        if ((month == 3 && day >= 21) ||
+            (month == 4 && day <= 19)) {
+
+            zodiac = "Aries";
+
+        } else if ((month == 4 && day >= 20) ||
+                   (month == 5 && day <= 20)) {
+
+            zodiac = "Taurus";
+
+        } else if ((month == 5 && day >= 21) ||
+                   (month == 6 && day <= 20)) {
+
+            zodiac = "Gemini";
+
+        } else if ((month == 6 && day >= 21) ||
+                   (month == 7 && day <= 22)) {
+
+            zodiac = "Cancer";
+
+        } else if ((month == 7 && day >= 23) ||
+                   (month == 8 && day <= 22)) {
+
+            zodiac = "Leo";
+
+        } else if ((month == 8 && day >= 23) ||
+                   (month == 9 && day <= 22)) {
+
+            zodiac = "Virgo";
+
+        } else if ((month == 9 && day >= 23) ||
+                   (month == 10 && day <= 22)) {
+
+            zodiac = "Libra";
+
+        } else if ((month == 10 && day >= 23) ||
+                   (month == 11 && day <= 21)) {
+
+            zodiac = "Scorpio";
+
+        } else if ((month == 11 && day >= 22) ||
+                   (month == 12 && day <= 21)) {
+
+            zodiac = "Sagittarius";
+
+        } else if ((month == 12 && day >= 22) ||
+                   (month == 1 && day <= 19)) {
+
+            zodiac = "Capricorn";
+
+        } else if ((month == 1 && day >= 20) ||
+                   (month == 2 && day <= 18)) {
+
+            zodiac = "Aquarius";
+
+        } else {
+
+            zodiac = "Pisces";
+
+        }
+
+
+        document.getElementById("zodiac").value = zodiac;
+
+    }
+
+);
+
+</script>
+
+
+</body>
+
+</html>

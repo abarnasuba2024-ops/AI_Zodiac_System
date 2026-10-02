@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Daily Horoscope | Zodiac AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        /* =====================================================
+           HOROSCOPE PAGE
+        ===================================================== */
+
+        .horoscope-page {
+            min-height: 100vh;
+            padding: 40px 20px 60px;
+        }
+
+        .horoscope-container {
+            max-width: 850px;
+            margin: auto;
+        }
+
+        .horoscope-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .horoscope-title h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        .horoscope-title p {
+            color: #cbd5e1;
+            font-size: 17px;
+        }
+
+        /* =====================================================
+           ZODIAC SELECT CARD
+        ===================================================== */
+
+        .zodiac-select-card {
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border: 1px solid rgba(255, 255, 255, 0.20);
+
+            border-radius: 24px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.30);
+
+            margin-bottom: 25px;
+        }
+
+        .zodiac-select-card label {
+            display: block;
+
+            font-size: 18px;
+            font-weight: 700;
+
+            margin-bottom: 12px;
+
+            color: white;
+        }
+
+        /* IMPORTANT:
+           Native select dropdown */
+        .zodiac-select {
+            width: 100%;
+
+            padding: 17px 20px;
+
+            border-radius: 15px;
+
+            border: 2px solid rgba(139, 92, 246, 0.55);
+
+            background: #17113b;
+
+            color: white;
+
+            font-size: 17px;
+
+            outline: none;
+
+            cursor: pointer;
+
+            appearance: auto;
+            -webkit-appearance: menulist;
+        }
+
+        .zodiac-select:focus {
+            border-color: #a78bfa;
+
+            box-shadow:
+                0 0 20px rgba(139, 92, 246, 0.35);
+        }
+
+        .zodiac-select option {
+            background: #17113b;
+            color: white;
+
+            padding: 12px;
+        }
+
+        /* =====================================================
+           ANALYZE BUTTON
+        ===================================================== */
+
+        .analyze-btn {
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 16px;
+
+            border: none;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8b5cf6,
+                    #ec4899
+                );
+
+            color: white;
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            box-shadow:
+                0 10px 25px rgba(139, 92, 246, 0.30);
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 35px rgba(139, 92, 246, 0.45);
+        }
+
+        /* =====================================================
+           HOROSCOPE RESULT
+        ===================================================== */
+
+        .horoscope-result {
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(139, 92, 246, 0.22),
+                    rgba(59, 130, 246, 0.16)
+                );
+
+            backdrop-filter: blur(20px);
+
+            border: 1px solid rgba(255, 255, 255, 0.18);
+
+            border-radius: 25px;
+
+            padding: 35px;
+
+            text-align: center;
+
+            margin-top: 25px;
+
+            animation: horoscopeAppear 0.6s ease;
+        }
+
+        @keyframes horoscopeAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        .zodiac-symbol {
+            font-size: 70px;
+
+            margin-bottom: 10px;
+        }
+
+        .horoscope-result h2 {
+            font-size: 30px;
+
+            margin-bottom: 8px;
+        }
+
+        .horoscope-date {
+            color: #cbd5e1;
+
+            margin-bottom: 25px;
+        }
+
+        .horoscope-message {
+            font-size: 19px;
+
+            line-height: 1.7;
+
+            color: #f8fafc;
+
+            background: rgba(255,255,255,0.08);
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            margin-top: 20px;
+        }
+
+        /* =====================================================
+           UNIQUE HOME BUTTON
+        ===================================================== */
+
+        .unique-home {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 10px;
+
+            width: fit-content;
+
+            margin: 35px auto 0;
+
+            padding: 13px 25px;
+
+            border-radius: 50px;
+
+            text-decoration: none;
+
+            color: white;
+
+            font-weight: 700;
+
+            font-size: 15px;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            border:
+                1px solid rgba(255,255,255,0.25);
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.25);
+
+            transition: all 0.3s ease;
+        }
+
+        .unique-home:hover {
+
+            transform: translateY(-4px);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #6366f1,
+                    #8b5cf6
+                );
+
+            box-shadow:
+                0 12px 30px rgba(99,102,241,0.40);
+        }
+
+        .home-icon {
+            font-size: 20px;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            .horoscope-title h1 {
+                font-size: 30px;
+            }
+
+            .zodiac-select-card {
+                padding: 22px;
+            }
+
+            .horoscope-result {
+                padding: 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <main class="horoscope-page">
+
+        <div class="horoscope-container">
+
+            <!-- =================================================
+                 TITLE
+            ================================================== -->
+
+            <div class="horoscope-title">
+
+                <h1>
+                    🔮 Daily Horoscope
+                </h1>
+
+                <p>
+                    Discover your zodiac message for today ✨
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 ZODIAC FORM
+            ================================================== -->
+
+            <div class="zodiac-select-card">
+
+                <form method="POST"
+                      action="{{ url_for('horoscope') }}">
+
+                    <label for="zodiac">
+
+                        🌟 Select Your Zodiac Sign
+
+                    </label>
+
+
+                    <select
+                        id="zodiac"
+                        name="zodiac"
+                        class="zodiac-select"
+                        required>
+
+                        <option value="" disabled selected>
+                            🔽 Choose your zodiac sign
+                        </option>
+
+                        {% for sign, info in zodiac_info.items() %}
+
+                            <option
+                                value="{{ sign }}"
+                                {% if selected_zodiac == sign %}
+                                    selected
+                                {% endif %}>
+
+                                {{ info.symbol }}
+                                {{ sign }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+
+                    <button
+                        type="submit"
+                        class="analyze-btn">
+
+                        ✨ Reveal Today's Horoscope
+
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- =================================================
+                 RESULT
+            ================================================== -->
+
+            {% if selected_zodiac %}
+
+                <div class="horoscope-result">
+
+                    <div class="zodiac-symbol">
+
+                        {{ zodiac_info[selected_zodiac].symbol }}
+
+                    </div>
+
+
+                    <h2>
+
+                        {{ selected_zodiac }}
+
+                    </h2>
+
+
+                    <div class="horoscope-date">
+
+                        {{ zodiac_info[selected_zodiac].dates }}
+
+                    </div>
+
+
+                    <div class="horoscope-message">
+
+                        🌙
+                        {{ horoscope_text[selected_zodiac] }}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- =================================================
+                 UNIQUE HOME BUTTON
+            ================================================== -->
+
+            <a href="{{ url_for('home') }}"
+               class="unique-home">
+
+                <span class="home-icon">⌂</span>
+
+                <span>Return to Zodiac Home</span>
+
+            </a>
+
+        </div>
+
+    </main>
+
+</body>
+
+</html>
